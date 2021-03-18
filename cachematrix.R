@@ -1,15 +1,64 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Assignment 2.Lexical Scoping
+## Cache Matrix
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(M = matrix()) {
+  
+  ##inverse matrix
+  iM <- NULL
+  
+  ##set function for matrix
+  set <- function( matrix ) {
+    M <<- matrix
+    iM <<- NULL
+  
+  ##get function for matrix  
+  get <- function() {
+    M
+  }
+  
+  ##set inverse matrix 
+  setInvM <- function(inv) 
+    {
+    iM <<- inv
+  }
+  
+  ##get inverse of matrix
+  getInvM <- function() 
+    {
+    iM
+  }
+  
+  ##list with all aboved functions
+  list(set = set, 
+       get = get,
+       setInvM = setInvM,
+       getInvM = getInvM)
 }
 
 
-## Write a short comment describing this function
+## Cache Solve
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  
+  ##return inverse (x) matrix 
+  M <- x$getInvM()
+
+  ##check if the inverse has already been calculated
+  if( !is.null(M) ) {
+    print('getting cached data')
+    return(M)
+  }
+
+  ##else inverse matrix is 0 or change, calculate inverse 
+  data <- x$get()
+
+  ##multiply matrix and solve inverse matrix
+  M <- solve(data) %*% data
+
+  ##set inverse to object
+  x$setInvM(M)
+  
+  ##finally return matrix
+  M
 }
+
